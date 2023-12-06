@@ -2,7 +2,7 @@
 [tool.poetry]
 name = "airbnb_analysis"
 version = "0.1.0"
-description = "A Python package for exploratory data analysis."
+description = "Airbnb Amsterdam Price Prediction Report"
 authors = ["Mapalo Lukashi <mlukashi@mail.yu.edu>"]
 license = "MIT"
 readme = "README.md"
@@ -16,6 +16,8 @@ seaborn = "^0.11"
 matplotlib = "^3.4"
 scipy = "^1.8.1"
 IPython = "^8.3.0"
+scikit-learn = "^1.0.1"
+joblib = "^1.1.0" 
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
