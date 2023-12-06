@@ -122,7 +122,8 @@ class Modeling:
     
     def plot_actual_vs_predicted(self):
         """
-        Visualizes the actual vs predicted prices using the test set.
+        Visualizes the actual vs predicted prices using the test set and adds a diagonal line
+        representing the points where actual prices equal predicted prices.
         """
         predictions = self.pipeline.predict(self.X_test)
         plt.figure(figsize=(10,6))
@@ -130,6 +131,17 @@ class Modeling:
         plt.xlabel('Actual Prices')
         plt.ylabel('Predicted Prices')
         plt.title('Actual vs Predicted Prices')
+
+        # Calculate the maximum price to define the limits of the diagonal line
+        max_price = max(self.y_test.max(), predictions.max())
+
+        # Plot a diagonal line
+        plt.plot([0, max_price], [0, max_price], '--k', linewidth=2, label='Perfect Prediction')
+    
+        # Add legend to the plot to differentiate the actual vs predicted points from the diagonal line
+        plt.legend()
+
         plt.show()
+
 
 
