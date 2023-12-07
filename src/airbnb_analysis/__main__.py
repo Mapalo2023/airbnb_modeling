@@ -44,5 +44,3 @@ def build_and_evaluate_model():
     modeling.plot_model_results()
     plt.show()
 
-if __name__ == "__main__":
-    main()
