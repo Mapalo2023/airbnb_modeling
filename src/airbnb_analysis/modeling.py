@@ -84,8 +84,12 @@ class Modeling:
 
     def prepare_data(self):
         """
-        Prepares training and testing data. Here you should include any
-        preprocessing steps like handling missing values, feature engineering etc.
+        Splits the dataset into training and testing sets, preparing it for the modeling process.
+
+        Returns
+        -------
+        tuple
+            A tuple containing training and testing sets for both features (X) and target (y).
         """
     
         X = self.data.drop(self.target, axis=1)
@@ -94,7 +98,12 @@ class Modeling:
 
     def create_pipeline(self):
         """
-        Creates a sklearn pipeline that preprocesses the data and then trains a model.
+        Constructs a pipeline for preprocessing and modeling with specified transformers and a regressor.
+
+        Returns
+        -------
+        sklearn.pipeline.Pipeline
+            A configured pipeline with preprocessing steps and a random forest regressor.
         """
         numeric_features = self.X_train.select_dtypes(include=['int64', 'float64']).columns
         categorical_features = self.X_train.select_dtypes(include=['object', 'bool']).columns
@@ -119,14 +128,23 @@ class Modeling:
 
     def train(self):
         """
-        Trains the model on the training data.
+        Fits the model to the training data using the prepared pipeline.
+
+        Returns
+        -------
+        None
         """
         self.pipeline.fit(self.X_train, self.y_train)
         self.model = self.pipeline.named_steps['regressor']
 
     def evaluate(self):
         """
-        Evaluates the model's performance on the test set.
+        Evaluates the model's performance on the test set using mean squared error and R squared metrics.
+
+        Returns
+        -------
+        tuple
+            A tuple containing mean squared error and R squared score of the model's predictions.
         """
         predictions = self.pipeline.predict(self.X_test)
         mse = mean_squared_error(self.y_test, predictions)
@@ -137,7 +155,17 @@ class Modeling:
 
     def cross_validate(self, cv=5):
         """
-        Performs cross-validation to evaluate model performance.
+        Applies cross-validation to the training data to assess model performance.
+
+        Parameters
+        ----------
+        cv : int, optional
+            Number of cross-validation folds. Default is 5.
+
+        Returns
+        -------
+        numpy.ndarray
+            Array of negative mean squared error scores from the cross-validation.
         """
         cv_scores = cross_val_score(self.pipeline, self.X_train, self.y_train, cv=cv, scoring='neg_mean_squared_error')
         print(f'CV Mean Squared Error: {-cv_scores.mean()}')
@@ -145,7 +173,17 @@ class Modeling:
 
     def grid_search(self, param_grid):
         """
-        Performs grid search to find the best parameters for the model.
+        Executes a grid search over a parameter grid to find the best model parameters.
+
+        Parameters
+        ----------
+        param_grid : dict
+            Dictionary with parameter names as keys and lists of parameter settings to try as values.
+
+        Returns
+        -------
+        dict
+            The best parameter values found during the grid search.
         """
         search = GridSearchCV(self.pipeline, param_grid, cv=5, scoring='neg_mean_squared_error')
         search.fit(self.X_train, self.y_train)
@@ -157,7 +195,11 @@ class Modeling:
     
     def plot_residuals(self):
         """
-        Plots the residuals of the model predictions to understand the error distribution.
+        Creates a histogram of the residuals to visualize the distribution of prediction errors.
+
+        Returns
+        -------
+        None
         """
         predictions = self.pipeline.predict(self.X_test)
         residuals = self.y_test - predictions
@@ -169,8 +211,11 @@ class Modeling:
     
     def plot_actual_vs_predicted(self):
         """
-        Visualizes the actual vs predicted prices using the test set and adds a diagonal line
-        representing the points where actual prices equal predicted prices.
+        Displays a scatter plot comparing actual and predicted prices, along with a line of perfect prediction.
+
+        Returns
+        -------
+        None
         """
         predictions = self.pipeline.predict(self.X_test)
         plt.figure(figsize=(10,6))
