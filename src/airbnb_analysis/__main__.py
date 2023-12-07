@@ -1,5 +1,6 @@
 # __main__.py for the airbnb_analysis package
 
+import os
 import pandas as pd
 from airbnb_analysis.summary import DataSummary
 from airbnb_analysis.analysis import ExploratoryDataAnalysis
@@ -11,8 +12,15 @@ def main():
     Run Airbnb data analysis as a complete script, encompassing summary statistics,
     exploratory data analysis, inference statistics, and predictive modeling.
     """
-    # Assuming the data is pre-loaded and cleaned in a CSV file
-    data_path = 'data/airbnb_listings.csv'  # Replace with the correct path to your data file
+    # Define the relative path to the listings.csv file, going up two directories
+    current_dir = os.path.dirname(__file__)
+    data_dir = os.path.join(current_dir, '..', '..', 'data')
+    data_path = os.path.join(data_dir, 'listings.csv')
+
+    # Ensure the path is correct by normalizing and converting to an absolute path
+    data_path = os.path.normpath(os.path.abspath(data_path))
+
+    # Load data
     data = pd.read_csv(data_path)
 
     # Data summarization
