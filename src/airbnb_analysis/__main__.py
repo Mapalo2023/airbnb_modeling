@@ -12,9 +12,10 @@ def main():
     Run Airbnb data analysis as a complete script, encompassing summary statistics,
     exploratory data analysis, inference statistics, and predictive modeling.
     """
-
     # Load data
-    data = pd.read_csv("https://raw.githubusercontent.com/Mapalo2023/airbnb_modeling/main/data/listings.csv")
+    data_url = "https://raw.githubusercontent.com/Mapalo2023/airbnb_modeling/main/data/listings.csv"
+    data = pd.read_csv(data_url)
+
 
     # Data summarization
     summary = DataSummary(data)
