@@ -1,8 +1,6 @@
 import pandas as pd
 import numpy as np
-import matplotlib as mpl
 import matplotlib.pyplot as plt
-import warnings
 import seaborn as sns
 from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
 from sklearn.pipeline import Pipeline
@@ -13,19 +11,68 @@ from sklearn.metrics import mean_squared_error, r2_score
 
 class Modeling:
     """
-    This class is responsible for building and evaluating a machine learning
-    model to predict Airbnb listing prices.
+    A class to build and evaluate a machine learning model for predicting Airbnb listing prices.
+
+    Attributes
+    ----------
+    data : pd.DataFrame
+        The entire dataset including the target variable.
+    target : str
+        The name of the target variable column.
+    test_size : float
+        The proportion of the dataset to include in the test split.
+    random_state : int
+        The seed used by the random number generator.
+    model : sklearn estimator object
+        The trained model after calling the `train` method.
+    X_train : ndarray
+        The training data features after calling `prepare_data`.
+    X_test : ndarray
+        The test data features after calling `prepare_data`.
+    y_train : ndarray
+        The training data target after calling `prepare_data`.
+    y_test : ndarray
+        The test data target after calling `prepare_data`.
+    pipeline : sklearn Pipeline object
+        The complete pipeline including preprocessing and the regressor.
+    
+    Methods
+    -------
+    __init__(self, data, target, test_size=0.2, random_state=42)
+        Constructor for the Modeling class.
+    prepare_data(self)
+        Prepares training and testing datasets.
+    create_pipeline(self)
+        Creates a scikit-learn pipeline for data preprocessing and modeling.
+    train(self)
+        Trains the model on the training data.
+    evaluate(self)
+        Evaluates the model's performance on the test set.
+    cross_validate(self, cv=5)
+        Performs cross-validation to evaluate model performance.
+    grid_search(self, param_grid)
+        Performs a grid search to find the best hyperparameters for the model.
+    plot_residuals(self)
+        Plots the residuals of the model predictions.
+    plot_actual_vs_predicted(self)
+        Visualizes the actual vs predicted prices using the test set.
+
     """
 
     def __init__(self, data, target, test_size=0.2, random_state=42):
         """
-        Initialize the AirbnbModel with data and configuration.
+        Initializes the Modeling object with data and configuration for model building and evaluation.
 
-        Parameters:
-            data (pd.DataFrame): The entire dataset.
-            target (str): The name of the target variable column.
-            test_size (float): The proportion of the dataset to include in the test split.
-            random_state (int): The seed used by the random number generator.
+        Parameters
+        ----------
+        data : pd.DataFrame
+            The entire dataset including features and the target variable.
+        target : str
+            The name of the target variable column.
+        test_size : float, optional
+            The proportion of the dataset to include in the test split. Default is 0.2.
+        random_state : int, optional
+            The seed used by the random number generator. Default is 42.
         """
         self.data = data
         self.target = target
