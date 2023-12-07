@@ -12,20 +12,7 @@ def main():
     Run Airbnb data analysis as a complete script, encompassing summary statistics,
     exploratory data analysis, inference statistics, and predictive modeling.
     """
-    # Print the current working directory
-    print("Current working directory:", os.getcwd())
-
-    # Define the relative path to the listings.csv file, going up one directory from __main__.py
-    current_dir = os.path.dirname(__file__)
-    data_dir = os.path.join(current_dir, '..', 'data')  # Go up one level to the root of the project
-    data_path = os.path.join(data_dir, 'listings.csv')
-
-    # Now, use data_path where you need to load the listings.csv
-    # Make sure to check if the path is correct
-    if not os.path.isfile(data_path):
-        print(f"Error: The file {data_path} does not exist.")
-    else:
-        print(f"Success: The file {data_path} was found.")
+    data_path = 'data/listings.csv'  
 
     # Load data
     data = pd.read_csv(data_path)
